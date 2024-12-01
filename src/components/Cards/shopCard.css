@@ -1,0 +1,19 @@
+.selectionQty {
+  width: 50px;
+}
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ant-card {
+  width: 340px !important;
+  /* height: 340px !important; */
+}
+
+.ant-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
