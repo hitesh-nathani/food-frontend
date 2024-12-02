@@ -1,0 +1,38 @@
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  /* background-color: white; */
+  background: url("https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+}
+
+.ant-form {
+  max-width: 500px !important;
+  width: 100%;
+}
+
+.ant-form-item-control {
+  width: 100%;
+}
+
+.login-form-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.ant-form-item-control-input-content {
+  margin: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+label {
+  color: white !important;
+}
