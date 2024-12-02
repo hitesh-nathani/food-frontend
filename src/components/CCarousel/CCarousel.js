@@ -1,7 +1,7 @@
 import { Carousel, Input } from "antd";
 import React from "react";
 
-function CCarousel() {
+function CCarousel({ onSearchChange, search }) {
   const containerStyle = {
     position: "relative",
     height: "500px",
@@ -42,7 +42,7 @@ function CCarousel() {
 
   const foodImages = [
     {
-      src: "https://www.foodiesfeed.com/wp-content/uploads/2023/05/juicy-cheeseburger.jpg",
+      src: "https://images.pexels.com/photos/1639562/pexels-photo-1639562.jpeg",
       label: "Burger",
     },
     {
@@ -54,16 +54,22 @@ function CCarousel() {
       label: "Sandwich",
     },
     {
-      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ODK2tmAkskaKYm0JUz6aHpeo7TyvAHxT8A&s",
+      src: "https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg",
       label: "Pasta",
     },
   ];
 
   return (
     <div>
-      <Carousel style={{
-        maxHeight: "600px", objectFit: "contain !important"
-      }} arrows infinite={false}>
+      <Carousel
+        style={{
+          maxHeight: "600px",
+          objectFit: "contain !important",
+        }}
+        arrows
+        autoplay
+        effect="fade"
+      >
         {foodImages.map((food, index) => (
           <div key={index} style={containerStyle}>
             <img
@@ -79,7 +85,7 @@ function CCarousel() {
       </Carousel>
       <div>
         <Input.Search
-        placeholder="Search"
+          placeholder="Search"
           style={{
             width: "50%",
             position: "absolute",
@@ -88,6 +94,8 @@ function CCarousel() {
             left: "50%",
             transform: "translate(-50%, -50%)",
           }}
+          value={search}
+          onChange={(e) => onSearchChange(e.target.value)}
         />
       </div>
     </div>
