@@ -21,6 +21,7 @@ function Login() {
           type: "success",
           message: data?.message,
         });
+        localStorage.setItem("token", data?.token);
         navigate("/");
       }
     } catch (error) {

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  console.log(localStorage.getItem("token"));
 
   const showModal = () => {
     setOpen(true);
@@ -63,7 +64,7 @@ function Navbar() {
             ) : (
               ""
             )}
-            {!localStorage.getItem("token") ? (
+            {localStorage.getItem("token") ? (
               <div className="d-flex">
                 <div
                   className="btn bg-white text-success mx-1"
@@ -73,7 +74,10 @@ function Navbar() {
                   <Badge count={2} />
                 </div>
                 <div
-                  onClick={() => localStorage.removeItem("token")}
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    window.location.reload();
+                  }}
                   className="btn bg-white text-danger mx-1"
                 >
                   Logout
@@ -85,20 +89,22 @@ function Navbar() {
       </nav>
       <Modal open={open} onCancel={() => setOpen(false)}>
         <table className="table">
-          <thead style={{ color: 'black', fontWeight: 'bold' }}>
+          <thead style={{ color: "black", fontWeight: "bold" }}>
             <tr>
               <th>Item</th>
               <th>Quantity</th>
               <th>Price</th>
             </tr>
           </thead>
-          <tbody style={{ color: 'black', fontWeight: 'normal' }}>
+          <tbody style={{ color: "black", fontWeight: "normal" }}>
             {[
               { item: "Burger", quantity: 2, price: "$5.99" },
               { item: "Pizza", quantity: 1, price: "$8.99" },
             ].map((row, index) => (
               <tr key={index}>
-                <td><p>{row.item}</p></td>
+                <td>
+                  <p>{row.item}</p>
+                </td>
                 <td>{row.quantity}</td>
                 <td>{row.price}</td>
               </tr>
