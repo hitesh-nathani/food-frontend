@@ -1,10 +1,13 @@
 import { Badge, Modal } from "antd";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../Cards/ContextReducer";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   console.log(localStorage.getItem("token"));
+  const cartData = useCart();
+  console.log("🚀 ~ Navbar ~ cartData:", cartData);
 
   const showModal = () => {
     setOpen(true);
@@ -89,27 +92,34 @@ function Navbar() {
       </nav>
       <Modal open={open} onCancel={() => setOpen(false)}>
         <table className="table">
-          <thead style={{ color: "black", fontWeight: "bold" }}>
-            <tr>
-              <th>Item</th>
-              <th>Quantity</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody style={{ color: "black", fontWeight: "normal" }}>
-            {[
-              { item: "Burger", quantity: 2, price: "$5.99" },
-              { item: "Pizza", quantity: 1, price: "$8.99" },
-            ].map((row, index) => (
-              <tr key={index}>
-                <td>
-                  <p>{row.item}</p>
-                </td>
-                <td>{row.quantity}</td>
-                <td>{row.price}</td>
-              </tr>
-            ))}
-          </tbody>
+          {cartData.length > 0 ? (
+            <>
+              <thead style={{ color: "black", fontWeight: "bold" }}>
+                <tr>
+                  <th>Item</th>
+                  <th>Quantity</th>
+                  <th>Size</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody style={{ color: "black", fontWeight: "normal" }}>
+                {cartData?.map((row, index) => (
+                  <tr key={index}>
+                    <td>
+                      <p>{row.name}</p>
+                    </td>
+                    <td>{row.qty}</td>
+                    <td>{row.size}</td>
+                    <td>{row.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </>
+          ) : (
+            <div>
+              <p>Cart is Empty</p>
+            </div>
+          )}
         </table>
       </Modal>
     </div>

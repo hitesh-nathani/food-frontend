@@ -9,17 +9,36 @@ const { Text } = Typography;
 function ShopCard(props) {
   const { item } = props;
   console.log("🚀 ~ ShopCard ~ items:", item);
-  let data = useCart();
-  let dispatch = useDispatchCart();
+
+  const data = useCart();
+  const dispatch = useDispatchCart();
 
   const [qty, setQty] = React.useState(1);
-  const [size, setSize] = React.useState("S");
-  const handleAddCArt = async () => {
+  const [size, setSize] = React.useState("full");
+  const [price, setPrice] = React.useState(() => {
+    // Set default price to "full" size
+    const fullPrice = item?.options?.[0]?.full;
+    return fullPrice ? parseFloat(fullPrice) : 0;
+  });
+
+  // Function to calculate price based on size and quantity
+  const calculatePrice = (size, qty) => {
+    const option = item?.options?.[0] || {};
+    const basePrice = size === "full" ? option.full : option.half;
+    return basePrice ? parseFloat(basePrice) * qty : 0;
+  };
+
+  // Update price whenever `size` or `qty` changes
+  React.useEffect(() => {
+    setPrice(calculatePrice(size, qty));
+  }, [size, qty]);
+
+  const handleAddToCart = async () => {
     await dispatch({
       type: "ADD",
-      id: props.foodItem._id,
-      name: props.foodItem.name,
-      price: props.foodItem.finalPrice,
+      id: item._id,
+      name: item.name,
+      price: price,
       qty: qty,
       size: size,
     });
@@ -50,27 +69,29 @@ function ShopCard(props) {
           defaultValue="1"
           onChange={(value) => setQty(value)}
         >
-          <Select.Option value="1">1</Select.Option>
-          <Select.Option value="2">2</Select.Option>
-          <Select.Option value="3">3</Select.Option>
+          {[...Array(10)].map((_, index) => (
+            <Select.Option key={index + 1} value={index + 1}>
+              {index + 1}
+            </Select.Option>
+          ))}
         </Select>
         <Select
           className="selectionQty"
           defaultValue="full"
           style={{
-            width:"100px"
+            width: "100px",
           }}
-          // onChange={(value) => setQty(value)}
+          onChange={(value) => setSize(value)}
         >
           <Select.Option value="full">Full</Select.Option>
           <Select.Option value="half">Half</Select.Option>
         </Select>
-        <Text>Price</Text>
+        <Text>Price: ₹ {price.toFixed(2)}</Text>
       </div>
-      <hr></hr>
+      <hr />
       <button
         className={"btn btn-success justify-center ms-2"}
-        onClick={handleAddCArt}
+        onClick={handleAddToCart}
       >
         Add to Cart
       </button>
