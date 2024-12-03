@@ -5,6 +5,7 @@ import ShopCard from "../components/Cards/ShopCard";
 import "./Home.css";
 import CCarousel from "../components/CCarousel/CCarousel";
 import axios from "axios";
+import { Col, Row } from "antd";
 
 function Home() {
   const [foodCat, setFoodCat] = React.useState([]);
@@ -48,15 +49,21 @@ function Home() {
                 <div key={data._id}>
                   <h3>{data.category_name}</h3>
                   <hr />
-                  {foodItem
-                    .filter(
-                      (item) =>
-                        item?.categoryName === data?.category_name &&
-                        item.name.toLowerCase().includes(search.toLowerCase())
-                    )
-                    .map((item) => {
-                      return <ShopCard key={item._id} item={item} />;
-                    })}
+                  <Row>
+                    {foodItem
+                      .filter(
+                        (item) =>
+                          item?.categoryName === data?.category_name &&
+                          item.name.toLowerCase().includes(search.toLowerCase())
+                      )
+                      .map((item) => {
+                        return (
+                          <Col xs={24} sm={24} md={12} lg={8}>
+                            <ShopCard key={item._id} item={item} />
+                          </Col>
+                        );
+                      })}
+                  </Row>
                 </div>
               );
             })}
