@@ -121,6 +121,14 @@ function Navbar() {
             </div>
           )}
         </table>
+        <div className="d-flex justify-content-end">
+          <p style={{ fontWeight: "bold" }}>
+            Total Price:{" "}
+            {cartData.length > 0
+              ? cartData.reduce((acc, curr) => acc + curr.price, 0)
+              : 0}
+          </p>
+        </div>
       </Modal>
     </div>
   );
